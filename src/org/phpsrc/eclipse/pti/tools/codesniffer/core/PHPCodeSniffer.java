@@ -16,6 +16,7 @@ import java.util.regex.Pattern;
 import org.apache.xerces.parsers.DOMParser;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
@@ -281,7 +282,7 @@ public class PHPCodeSniffer extends AbstractPHPTool {
 
 	private String getCommandLineArgs(Standard standard, int tabWidth) {
 
-		String args = "--report=xml --standard="
+		String args = "--encoding=" + ResourcesPlugin.getEncoding() + " --report=xml --standard="
 				+ (standard.custom ? OperatingSystem
 						.escapeShellFileArg(standard.path) : OperatingSystem
 						.escapeShellArg(standard.name));
