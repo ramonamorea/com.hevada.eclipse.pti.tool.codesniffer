@@ -281,7 +281,7 @@ public class PHPCodeSniffer extends AbstractPHPTool {
 
 	private String getCommandLineArgs(Standard standard, int tabWidth) {
 
-		String args = "--report=xml --standard="
+		String args = "--endcoding=" + ResourcesPlugin.getEncoding() + " --report=xml --standard="
 				+ (standard.custom ? OperatingSystem
 						.escapeShellFileArg(standard.path) : OperatingSystem
 						.escapeShellArg(standard.name));
