@@ -225,8 +225,7 @@ public class PHPCodeSniffer extends AbstractPHPTool {
 			launcher = (PHPToolLauncher) project
 					.getSessionProperty(QUALIFIED_NAME);
 			if (launcher != null) {
-				launcher.setCommandLineArgs(getCommandLineArgs(standard,
-						prefs.getTabWidth()));
+				launcher.setCommandLineArgs(getCommandLineArgs(standard, prefs));
 				return launcher;
 			}
 		} catch (CoreException e) {
@@ -235,7 +234,7 @@ public class PHPCodeSniffer extends AbstractPHPTool {
 
 		launcher = new PHPToolLauncher(QUALIFIED_NAME,
 				getPHPExecutable(prefs.getPhpExecutable()), getScriptFile(),
-				getCommandLineArgs(standard, prefs.getTabWidth()),
+				getCommandLineArgs(standard, prefs),
 				getPHPINIEntries(prefs, project, standard));
 
 		launcher.setPrintOuput(prefs.isPrintOutput());
@@ -280,6 +279,12 @@ public class PHPCodeSniffer extends AbstractPHPTool {
 				"/php/tools/phpcs.php");
 	}
 
+	/**
+	 * Keep the old method for backward compatibility
+	 * @param standard
+	 * @param tabWidth
+	 * @return
+	 */
 	private String getCommandLineArgs(Standard standard, int tabWidth) {
 
 		String args = "--encoding=" + ResourcesPlugin.getEncoding() + " --report=xml --standard="
@@ -287,6 +292,30 @@ public class PHPCodeSniffer extends AbstractPHPTool {
 						.escapeShellFileArg(standard.path) : OperatingSystem
 						.escapeShellArg(standard.name));
 
+		if (tabWidth > 0)
+			args += " --tab-width=" + tabWidth;
+
+		return args + " " + PHPToolLauncher.COMMANDLINE_PLACEHOLDER_FILE;
+	}
+
+	/**
+	 * Build command line arguments with respect to extra argument.
+	 * @param standard
+	 * @param tabWidth
+	 * @return
+	 */
+	private String getCommandLineArgs(Standard standard, PHPCodeSnifferPreferences prefs) {
+
+		String args = "--encoding=" + ResourcesPlugin.getEncoding() + " --report=xml --standard="
+				+ (standard.custom ? OperatingSystem
+						.escapeShellFileArg(standard.path) : OperatingSystem
+						.escapeShellArg(standard.name));
+
+		String extraArgs = prefs.getExtraArgs();
+		if(null != extraArgs && extraArgs.length() > 0)
+			args = extraArgs + " " + args;
+		
+		int tabWidth = prefs.getTabWidth();
 		if (tabWidth > 0)
 			args += " --tab-width=" + tabWidth;
 

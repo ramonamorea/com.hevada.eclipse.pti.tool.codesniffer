@@ -61,6 +61,7 @@ public class PHPCodeSnifferConfigurationBlock extends AbstractPEARPHPToolConfigu
 	private static final Key PREF_FILE_EXTENSIONS = getCodeSnifferKey(PHPCodeSnifferPreferenceNames.PREF_FILE_EXTENSIONS);
 	private static final Key PREF_IGNORE_PATTERN = getCodeSnifferKey(PHPCodeSnifferPreferenceNames.PREF_IGNORE_PATTERN);
 	private static final Key PREF_IGNORE_SNIFFS = getCodeSnifferKey(PHPCodeSnifferPreferenceNames.PREF_IGNORE_SNIFFS);
+	private static final Key PREF_EXTRA_ARGS = getCodeSnifferKey(PHPCodeSnifferPreferenceNames.PREF_EXTRA_ARGS);
 
 	private static final int IDX_ADD = 0;
 	private static final int IDX_EDIT = 1;
@@ -71,6 +72,7 @@ public class PHPCodeSnifferConfigurationBlock extends AbstractPEARPHPToolConfigu
 	private final StringDialogField fFileExtension;
 	private final StringDialogField fIgnorePattern;
 	private final StringDialogField fIgnoreSniffs;
+	private final StringDialogField fExtraArgs;
 
 	private class CodeSnifferLabelProvider extends LabelProvider implements ITableLabelProvider, IFontProvider {
 
@@ -231,12 +233,15 @@ public class PHPCodeSnifferConfigurationBlock extends AbstractPEARPHPToolConfigu
 		fIgnoreSniffs.setLabelText("Sniffs:");
 
 		unpackIgnoreSniffs();
+		
+		fExtraArgs = new StringDialogField();
+		unpackExtraArgs();
 	}
 
 	private static Key[] getKeys() {
 		return new Key[] { PREF_PHP_EXECUTABLE, PREF_PEAR_LIBRARY, PREF_DEBUG_PRINT_OUTPUT, PREF_CUSTOM_STANDARD_NAMES,
 				PREF_CUSTOM_STANDARD_PATHS, PREF_ACTIVE_STANDARDS, PREF_DEFAULT_TAB_WITH, PREF_FILE_EXTENSIONS,
-				PREF_IGNORE_PATTERN, PREF_IGNORE_SNIFFS };
+				PREF_IGNORE_PATTERN, PREF_IGNORE_SNIFFS, PREF_EXTRA_ARGS };
 	}
 
 	protected Composite createToolContents(Composite parent) {
@@ -307,6 +312,12 @@ public class PHPCodeSnifferConfigurationBlock extends AbstractPEARPHPToolConfigu
 			public void widgetDefaultSelected(SelectionEvent e) {
 			}
 		});
+
+		Group extraArgsGroup = new Group(folder, SWT.NULL);
+		extraArgsGroup.setText("Extra Arguments");
+		extraArgsGroup.setLayout(tabWidthLayout);
+		extraArgsGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		fExtraArgs.doFillIntoGrid(extraArgsGroup, 3);
 
 		return markersGroup;
 	}
@@ -381,6 +392,7 @@ public class PHPCodeSnifferConfigurationBlock extends AbstractPEARPHPToolConfigu
 			tabWidth = Integer.parseInt(fTabWidth.getText());
 		} catch (Exception e) {
 		}
+		setValue(PREF_EXTRA_ARGS, fExtraArgs.getText());
 		setValue(PREF_DEFAULT_TAB_WITH, "" + tabWidth);
 		setValue(PREF_FILE_EXTENSIONS, "" + fFileExtension.getText());
 		setValue(PREF_IGNORE_PATTERN, fIgnorePattern.getText());
@@ -434,8 +446,15 @@ public class PHPCodeSnifferConfigurationBlock extends AbstractPEARPHPToolConfigu
 		unpackFileExtensions();
 		unpackIgnorePattern();
 		unpackIgnoreSniffs();
+		unpackExtraArgs();
 	}
 
+	private void unpackExtraArgs() {
+		String extraArgs = getValue(PREF_EXTRA_ARGS);
+		if (extraArgs != null)
+			fExtraArgs.setText(extraArgs);
+	}
+	
 	private void unpackTabWidth() {
 		String tabWidth = getValue(PREF_DEFAULT_TAB_WITH);
 		if (tabWidth != null)

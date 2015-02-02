@@ -49,6 +49,7 @@ public class PHPCodeSnifferPreferencesFactory {
 		boolean printOutput = prefs.getBoolean(PHPCodeSnifferPreferenceNames.PREF_DEBUG_PRINT_OUTPUT);
 		String ignorePattern = prefs.getString(PHPCodeSnifferPreferenceNames.PREF_IGNORE_PATTERN);
 		String ignoreSniffs = prefs.getString(PHPCodeSnifferPreferenceNames.PREF_IGNORE_SNIFFS);
+		String extraArgs = prefs.getString(PHPCodeSnifferPreferenceNames.PREF_EXTRA_ARGS);
 
 		IScopeContext[] preferenceScopes = createPreferenceScopes(project);
 		if (preferenceScopes[0] instanceof ProjectScope) {
@@ -69,6 +70,7 @@ public class PHPCodeSnifferPreferencesFactory {
 				printOutput = node.getBoolean(PHPCodeSnifferPreferenceNames.PREF_DEBUG_PRINT_OUTPUT, printOutput);
 				ignorePattern = node.get(PHPCodeSnifferPreferenceNames.PREF_IGNORE_PATTERN, ignorePattern);
 				ignoreSniffs = node.get(PHPCodeSnifferPreferenceNames.PREF_IGNORE_SNIFFS, ignoreSniffs);
+				extraArgs = node.get(PHPCodeSnifferPreferenceNames.PREF_EXTRA_ARGS, extraArgs);
 			}
 		}
 
@@ -108,7 +110,7 @@ public class PHPCodeSnifferPreferencesFactory {
 
 		return new PHPCodeSnifferPreferences(phpExe, printOutput, pearLibraryName, standards.toArray(new Standard[0]),
 				tabWidth, fileExtensionsList, ignorePattern, ignoreSniffs == null || ignoreSniffs.length() == 0 ? null
-						: ignoreSniffs.split(" *, *"));
+						: ignoreSniffs.split(" *, *"), extraArgs);
 	}
 
 	protected static IScopeContext[] createPreferenceScopes(IProject project) {

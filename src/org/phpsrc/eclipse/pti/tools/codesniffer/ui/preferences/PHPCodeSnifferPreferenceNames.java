@@ -21,4 +21,5 @@ public class PHPCodeSnifferPreferenceNames {
 	public static final String PREF_FILE_EXTENSIONS = "file_extension"; //$NON-NLS-1$
 	public static final String PREF_IGNORE_PATTERN = "ignore_pattern"; //$NON-NLS-1$
 	public static final String PREF_IGNORE_SNIFFS = "pref_ignore_sniffs"; //$NON-NLS-1$
+	public static final String PREF_EXTRA_ARGS = "extra_args"; //$NON-NLS-1$
 }

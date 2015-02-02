@@ -16,9 +16,40 @@ public class PHPCodeSnifferPreferences extends AbstractPEARPHPToolPreferences {
 	protected String ignorePattern;
 	protected String[] ignoreSniffs;
 	protected String[] fileExtensions;
+	protected String extraArgs;
 
+	/**
+	 * Keep the old constructor for backward compatibility
+	 * @param phpExecutable
+	 * @param printOutput
+	 * @param pearLibraryName
+	 * @param standards
+	 * @param tabWidth
+	 * @param fileExtensions
+	 * @param ignorePattern
+	 * @param ignoreSniffs
+	 */
 	public PHPCodeSnifferPreferences(String phpExecutable, boolean printOutput, String pearLibraryName,
 			Standard[] standards, int tabWidth, String[] fileExtensions, String ignorePattern, String[] ignoreSniffs) {
+		this(phpExecutable, printOutput, pearLibraryName, standards, tabWidth,
+				fileExtensions, ignorePattern, ignoreSniffs, null);
+	}
+	
+	/**
+	 * The new constructor utilizing extraArgs
+	 * @param phpExecutable
+	 * @param printOutput
+	 * @param pearLibraryName
+	 * @param standards
+	 * @param tabWidth
+	 * @param fileExtensions
+	 * @param ignorePattern
+	 * @param ignoreSniffs
+	 */
+	public PHPCodeSnifferPreferences(String phpExecutable, boolean printOutput,
+			String pearLibraryName, Standard[] standards, int tabWidth,
+			String[] fileExtensions, String ignorePattern, String[] ignoreSniffs,
+			String extraArgs) {
 		super(phpExecutable, printOutput, pearLibraryName);
 		this.standards = standards;
 		this.tabWidth = tabWidth;
@@ -28,6 +59,7 @@ public class PHPCodeSnifferPreferences extends AbstractPEARPHPToolPreferences {
 		else
 			this.ignorePattern = null;
 		this.ignoreSniffs = ignoreSniffs;
+		this.extraArgs = extraArgs;
 	}
 
 	public Standard[] getStandards() {
@@ -48,5 +80,9 @@ public class PHPCodeSnifferPreferences extends AbstractPEARPHPToolPreferences {
 
 	public String[] getIgnoreSniffs() {
 		return ignoreSniffs;
+	}
+
+	public String getExtraArgs() {
+		return extraArgs;
 	}
 }
