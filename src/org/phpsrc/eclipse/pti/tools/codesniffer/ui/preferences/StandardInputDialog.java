@@ -155,7 +155,9 @@ public class StandardInputDialog extends StatusDialog {
 				File codingStandardPHP = new File(newPath + File.separatorChar + path.lastSegment()
 						+ "CodingStandard.php");
 				File codingStandardXML = new File(newPath + File.separatorChar + "ruleset.xml");
-				if (!codingStandardPHP.exists() && !codingStandardXML.exists()) {
+				File customXML = new File(newPath);
+				if (!codingStandardPHP.exists() && !codingStandardXML.exists()
+				    && !customXML.exists() && !newPath.endsWith(".xml")) {
 					status.setError("Missing standard file " + path.lastSegment() + "CodingStandard.php or ruleset.xml");
 				}
 			}
