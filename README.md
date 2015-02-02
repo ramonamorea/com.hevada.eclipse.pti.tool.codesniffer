@@ -1,6 +1,6 @@
 Thanks for great tools from [PHPsrc](https://github.com/PHPsrc).
 
-Sadly, it hasn't been updated for years. I have these great tools in my daily work, so I've decided to try tailoring.
+Sadly, it hasn't been updated for years. I have to use these great tools in my daily work, so I've decided to try tailoring.
 
 
 ## Installation
