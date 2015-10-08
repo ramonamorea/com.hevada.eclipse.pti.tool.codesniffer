@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <bundle id="org.phpsrc.eclipse.pti.core" version="1.6.0.R20110619000000">
+      <category name="pti_core"/>
+   </bundle>
+   <category-def name="pti_core" label="PHP Tools Integration"/>
+</site>
