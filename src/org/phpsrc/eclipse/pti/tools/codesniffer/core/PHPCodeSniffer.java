@@ -11,6 +11,7 @@ package org.phpsrc.eclipse.pti.tools.codesniffer.core;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 import org.apache.xerces.parsers.DOMParser;
@@ -45,8 +46,8 @@ import org.xml.sax.InputSource;
 
 public class PHPCodeSniffer extends AbstractPHPTool {
 
-	public final static QualifiedName QUALIFIED_NAME = new QualifiedName(
-			PHPCodeSnifferPlugin.PLUGIN_ID, "phpCodeSnifferTool");
+	public final static QualifiedName QUALIFIED_NAME = new QualifiedName(PHPCodeSnifferPlugin.PLUGIN_ID,
+		"phpCodeSnifferTool");
 	private static PHPCodeSniffer instance;
 
 	protected PHPCodeSniffer() {
@@ -60,14 +61,12 @@ public class PHPCodeSniffer extends AbstractPHPTool {
 	}
 
 	public IProblem[] parse(IFile file) throws CoreException, IOException {
-		PHPCodeSnifferPreferences prefs = PHPCodeSnifferPreferencesFactory
-				.factory(file);
+		PHPCodeSnifferPreferences prefs = PHPCodeSnifferPreferencesFactory.factory(file);
 		if (canParse(prefs.getIgnorePattern(), prefs.getFileExtensions(), file)) {
 
 			ArrayList<IProblem> list = new ArrayList<IProblem>(10);
 			for (Standard standard : prefs.getStandards()) {
-				IProblem[] problems = parseOutput(new PHPSourceFile(file),
-						launchFile(file, prefs, standard), prefs);
+				IProblem[] problems = parseOutput(new PHPSourceFile(file), launchFile(file, prefs, standard), prefs);
 				for (IProblem problem : problems)
 					if (!list.contains(problem))
 						list.add(problem);
@@ -79,8 +78,7 @@ public class PHPCodeSniffer extends AbstractPHPTool {
 		}
 	}
 
-	protected boolean canParse(String ignorePattern, String[] fileExtensions,
-			IFile file) {
+	protected boolean canParse(String ignorePattern, String[] fileExtensions, IFile file) {
 		boolean can = true;
 
 		if (fileExtensions != null && fileExtensions.length > 0) {
@@ -103,8 +101,7 @@ public class PHPCodeSniffer extends AbstractPHPTool {
 			for (String pattern : patterns) {
 				pattern = pattern.trim();
 				if (pattern.length() > 0) {
-					pattern = pattern.replace("\\", "/").replace(".", "\\.")
-							.replace("*", ".*").replace("?", ".?");
+					pattern = pattern.replace("\\", "/").replace(".", "\\.").replace("*", ".*").replace("?", ".?");
 					Pattern p = Pattern.compile(pattern);
 					if (p.matcher(filePath).matches()) {
 						can = false;
@@ -117,13 +114,11 @@ public class PHPCodeSniffer extends AbstractPHPTool {
 		return can;
 	}
 
-	protected String launchFile(IFile file, PHPCodeSnifferPreferences prefs,
-			Standard standard) {
+	protected String launchFile(IFile file, PHPCodeSnifferPreferences prefs, Standard standard) {
 
 		String output = null;
 		try {
-			PHPToolLauncher launcher = getPHPToolLauncher(file.getProject(),
-					prefs, standard);
+			PHPToolLauncher launcher = getPHPToolLauncher(file.getProject(), prefs, standard);
 			output = launcher.launch(file);
 		} catch (Exception e) {
 			Logger.logException(e);
@@ -135,8 +130,7 @@ public class PHPCodeSniffer extends AbstractPHPTool {
 			return output;
 	}
 
-	protected IProblem[] parseOutput(ISourceFile file, String output,
-			PHPCodeSnifferPreferences prefs) {
+	protected IProblem[] parseOutput(ISourceFile file, String output, PHPCodeSnifferPreferences prefs) {
 		ArrayList<IProblem> problems = new ArrayList<IProblem>();
 
 		try {
@@ -154,14 +148,10 @@ public class PHPCodeSniffer extends AbstractPHPTool {
 					parser.parse(new InputSource(new StringReader(output)));
 
 					Document doc = parser.getDocument();
-					problems.addAll(createProblemMarker(file,
-							doc.getElementsByTagName("error"),
-							ProblemSeverity.ERROR, tabWidth,
-							prefs.getIgnoreSniffs()));
-					problems.addAll(createProblemMarker(file,
-							doc.getElementsByTagName("warning"),
-							ProblemSeverity.WARNING, tabWidth,
-							prefs.getIgnoreSniffs()));
+					problems.addAll(createProblemMarker(file, doc.getElementsByTagName("error"), ProblemSeverity.ERROR,
+						tabWidth, prefs.getIgnoreSniffs()));
+					problems.addAll(createProblemMarker(file, doc.getElementsByTagName("warning"),
+						ProblemSeverity.WARNING, tabWidth, prefs.getIgnoreSniffs()));
 				}
 			}
 		} catch (Exception e) {
@@ -171,9 +161,8 @@ public class PHPCodeSniffer extends AbstractPHPTool {
 		return problems.toArray(new IProblem[0]);
 	}
 
-	protected ArrayList<IProblem> createProblemMarker(ISourceFile file,
-			NodeList list, ProblemSeverity type, int tabWidth,
-			String[] ignoreSniffs) {
+	protected ArrayList<IProblem> createProblemMarker(ISourceFile file, NodeList list, ProblemSeverity type,
+		int tabWidth, String[] ignoreSniffs) {
 		if (tabWidth <= 0)
 			tabWidth = 2;
 
@@ -198,32 +187,26 @@ public class PHPCodeSniffer extends AbstractPHPTool {
 					continue;
 			}
 
-			int lineNr = Integer.parseInt(attr.getNamedItem("line")
-					.getTextContent());
-			int column = Integer.parseInt(attr.getNamedItem("column")
-					.getTextContent());
+			int lineNr = Integer.parseInt(attr.getNamedItem("line").getTextContent());
+			int column = Integer.parseInt(attr.getNamedItem("column").getTextContent());
 			int lineStart = file.lineStart(lineNr);
 
 			// calculate real column with tabs
 			if (column > 1)
 				lineStart += (column - 1 - (file.lineStartTabCount(lineNr) * (tabWidth - 1)));
 
-			problems.add(new CodeSnifferProblem(file.getFile().getFullPath()
-					.toOSString(), item.getTextContent(),
-					DefaultProblemIdentifier.decode(IProblem.Syntax),
-					new String[0], type, lineStart, file.lineEnd(lineNr),
-					lineNr, column, source));
+			problems.add(new CodeSnifferProblem(file.getFile().getFullPath().toOSString(), item.getTextContent(),
+				DefaultProblemIdentifier.decode(IProblem.Syntax), new String[0], type, lineStart, file.lineEnd(lineNr),
+				lineNr, column, source));
 		}
 
 		return problems;
 	}
 
-	protected PHPToolLauncher getPHPToolLauncher(IProject project,
-			PHPCodeSnifferPreferences prefs, Standard standard) {
+	protected PHPToolLauncher getPHPToolLauncher(IProject project, PHPCodeSnifferPreferences prefs, Standard standard) {
 		PHPToolLauncher launcher;
 		try {
-			launcher = (PHPToolLauncher) project
-					.getSessionProperty(QUALIFIED_NAME);
+			launcher = (PHPToolLauncher) project.getSessionProperty(QUALIFIED_NAME);
 			if (launcher != null) {
 				launcher.setCommandLineArgs(getCommandLineArgs(standard, prefs));
 				return launcher;
@@ -232,10 +215,8 @@ public class PHPCodeSniffer extends AbstractPHPTool {
 			Logger.logException(e);
 		}
 
-		launcher = new PHPToolLauncher(QUALIFIED_NAME,
-				getPHPExecutable(prefs.getPhpExecutable()), getScriptFile(),
-				getCommandLineArgs(standard, prefs),
-				getPHPINIEntries(prefs, project, standard));
+		launcher = new PHPToolLauncher(QUALIFIED_NAME, getPHPExecutable(prefs.getPhpExecutable()), getScriptFile(),
+			getCommandLineArgs(standard, prefs), getPHPINIEntries(prefs, project, standard));
 
 		launcher.setPrintOuput(prefs.isPrintOutput());
 
@@ -248,16 +229,13 @@ public class PHPCodeSniffer extends AbstractPHPTool {
 		return launcher;
 	}
 
-	private INIFileEntry[] getPHPINIEntries(PHPCodeSnifferPreferences prefs,
-			IProject project, Standard standard) {
+	private INIFileEntry[] getPHPINIEntries(PHPCodeSnifferPreferences prefs, IProject project, Standard standard) {
 
-		IPath[] includePaths = PHPCodeSnifferPlugin.getDefault()
-				.getPluginIncludePaths(project);
+		IPath[] includePaths = PHPCodeSnifferPlugin.getDefault().getPluginIncludePaths(project);
 
 		if (standard.custom) {
 			IPath[] tmpIncludePaths = new IPath[includePaths.length + 2];
-			System.arraycopy(includePaths, 0, tmpIncludePaths, 2,
-					includePaths.length);
+			System.arraycopy(includePaths, 0, tmpIncludePaths, 2, includePaths.length);
 			tmpIncludePaths[0] = new Path(standard.path);
 			tmpIncludePaths[1] = new Path(standard.path).removeLastSegments(1);
 			includePaths = tmpIncludePaths;
@@ -265,8 +243,7 @@ public class PHPCodeSniffer extends AbstractPHPTool {
 
 		INIFileEntry[] entries;
 		if (includePaths.length > 0) {
-			entries = new INIFileEntry[] { INIFileUtil
-					.createIncludePathEntry(includePaths) };
+			entries = new INIFileEntry[] { INIFileUtil.createIncludePathEntry(includePaths) };
 		} else {
 			entries = new INIFileEntry[0];
 		}
@@ -275,22 +252,22 @@ public class PHPCodeSniffer extends AbstractPHPTool {
 	}
 
 	public static IPath getScriptFile() {
-		return PHPCodeSnifferPlugin.getDefault().resolvePluginResource(
-				"/php/tools/phpcs.php");
+		Map<String, String> env = System.getenv();
+		String csPath = env.containsKey("PHPCS_PATH") ? env.get("PHPCS_PATH") : "/php/tools/phpcs.php";
+		System.out.println("Path to CS: " + csPath);
+		return PHPCodeSnifferPlugin.getDefault().resolvePluginResource(csPath);
 	}
 
 	/**
 	 * Keep the old method for backward compatibility
+	 * 
 	 * @param standard
 	 * @param tabWidth
 	 * @return
 	 */
 	private String getCommandLineArgs(Standard standard, int tabWidth) {
-
-		String args = "--encoding=" + ResourcesPlugin.getEncoding() + " --report=xml --standard="
-				+ (standard.custom ? OperatingSystem
-						.escapeShellFileArg(standard.path) : OperatingSystem
-						.escapeShellArg(standard.name));
+		String args = "--encoding=" + ResourcesPlugin.getEncoding() + " --report=xml --standard=" + (standard.custom
+			? OperatingSystem.escapeShellFileArg(standard.path) : OperatingSystem.escapeShellArg(standard.name));
 
 		if (tabWidth > 0)
 			args += " --tab-width=" + tabWidth;
@@ -300,21 +277,20 @@ public class PHPCodeSniffer extends AbstractPHPTool {
 
 	/**
 	 * Build command line arguments with respect to extra argument.
+	 * 
 	 * @param standard
 	 * @param tabWidth
 	 * @return
 	 */
 	private String getCommandLineArgs(Standard standard, PHPCodeSnifferPreferences prefs) {
 
-		String args = "--encoding=" + ResourcesPlugin.getEncoding() + " --report=xml --standard="
-				+ (standard.custom ? OperatingSystem
-						.escapeShellFileArg(standard.path) : OperatingSystem
-						.escapeShellArg(standard.name));
+		String args = "--encoding=" + ResourcesPlugin.getEncoding() + " --report=xml --standard=" + (standard.custom
+			? OperatingSystem.escapeShellFileArg(standard.path) : OperatingSystem.escapeShellArg(standard.name));
 
 		String extraArgs = prefs.getExtraArgs();
-		if(null != extraArgs && extraArgs.length() > 0)
+		if (null != extraArgs && extraArgs.length() > 0)
 			args = extraArgs + " " + args;
-		
+
 		int tabWidth = prefs.getTabWidth();
 		if (tabWidth > 0)
 			args += " --tab-width=" + tabWidth;
