@@ -22,6 +22,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.ui.ide;bundle-version="3.4.1",
  org.eclipse.wst.sse.ui;bundle-version="1.1.100"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-ActivationPolicy: lazy
 Export-Package: org.phpsrc.eclipse.pti.tools.codesniffer,
  org.phpsrc.eclipse.pti.tools.codesniffer.core,
  org.phpsrc.eclipse.pti.tools.codesniffer.core.jobs,
@@ -31,4 +32,3 @@ Export-Package: org.phpsrc.eclipse.pti.tools.codesniffer,
  org.phpsrc.eclipse.pti.tools.codesniffer.ui.correction,
  org.phpsrc.eclipse.pti.tools.codesniffer.ui.preferences,
  org.phpsrc.eclipse.pti.tools.codesniffer.validator
-Bundle-ActivationPolicy: lazy
