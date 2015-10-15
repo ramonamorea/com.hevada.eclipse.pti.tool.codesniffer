@@ -8,8 +8,6 @@
 
 package org.phpsrc.eclipse.pti.tools.codesniffer.core.preferences;
 
-import org.phpsrc.eclipse.pti.library.pear.core.preferences.AbstractPEARPHPToolPreferences;
-
 public class PHPCodeSnifferPreferences extends AbstractPEARPHPToolPreferences {
 	protected Standard[] standards;
 	protected int tabWidth;
