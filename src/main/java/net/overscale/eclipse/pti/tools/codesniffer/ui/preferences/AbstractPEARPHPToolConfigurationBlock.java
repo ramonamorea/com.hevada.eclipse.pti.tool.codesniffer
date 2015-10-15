@@ -40,8 +40,6 @@ import org.phpsrc.eclipse.pti.ui.preferences.AbstractPHPToolConfigurationBlock;
 
 public abstract class AbstractPEARPHPToolConfigurationBlock extends AbstractPHPToolConfigurationBlock {
 
-	protected Combo pearLibraryCombo;
-
 	public AbstractPEARPHPToolConfigurationBlock(IStatusChangeListener context, IProject project, Key[] allKeys,
 			IWorkbenchPreferenceContainer container) {
 		super(context, project, allKeys, container);

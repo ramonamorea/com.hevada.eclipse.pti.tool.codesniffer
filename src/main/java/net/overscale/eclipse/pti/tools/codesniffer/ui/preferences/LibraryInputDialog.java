@@ -48,7 +48,7 @@ import org.eclipse.swt.widgets.Shell;
  */
 public class LibraryInputDialog extends StatusDialog {
 
-	private class LibraryStandardInputAdapter implements IDialogFieldListener {
+	public class LibraryStandardInputAdapter implements IDialogFieldListener {
 		public void dialogFieldChanged(DialogField field) {
 			doValidation();
 		}
