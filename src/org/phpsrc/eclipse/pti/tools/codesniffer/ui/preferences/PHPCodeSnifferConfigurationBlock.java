@@ -41,15 +41,16 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.ui.preferences.IWorkbenchPreferenceContainer;
-import org.phpsrc.eclipse.pti.library.pear.ui.preferences.AbstractPEARPHPToolConfigurationBlock;
 import org.phpsrc.eclipse.pti.tools.codesniffer.PHPCodeSnifferPlugin;
 import org.phpsrc.eclipse.pti.tools.codesniffer.core.PHPCodeSniffer;
 import org.phpsrc.eclipse.pti.tools.codesniffer.core.preferences.Standard;
 import org.phpsrc.eclipse.pti.ui.widgets.listener.NumberOnlyVerifyListener;
 
+@SuppressWarnings("restriction")
 public class PHPCodeSnifferConfigurationBlock extends AbstractPEARPHPToolConfigurationBlock {
 
 	private static final Key PREF_PHP_EXECUTABLE = getCodeSnifferKey(PHPCodeSnifferPreferenceNames.PREF_PHP_EXECUTABLE);
+	private static final Key PREF_PHPCS = getCodeSnifferKey(PHPCodeSnifferPreferenceNames.PREF_PHPCS);
 	private static final Key PREF_PEAR_LIBRARY = getCodeSnifferKey(PHPCodeSnifferPreferenceNames.PREF_PEAR_LIBRARY);
 	private static final Key PREF_DEBUG_PRINT_OUTPUT = getCodeSnifferKey(PHPCodeSnifferPreferenceNames.PREF_DEBUG_PRINT_OUTPUT);
 	private static final Key PREF_CUSTOM_STANDARD_NAMES = getCodeSnifferKey(PHPCodeSnifferPreferenceNames.PREF_CUSTOM_STANDARD_NAMES);
@@ -138,6 +139,7 @@ public class PHPCodeSnifferConfigurationBlock extends AbstractPEARPHPToolConfigu
 		 * @see
 		 * org.eclipse.jface.viewers.IFontProvider#getFont(java.lang.Object)
 		 */
+		@SuppressWarnings("unused")
 		public Font getFont(Object element) {
 			if (false) {
 				return JFaceResources.getFontRegistry().getBold(JFaceResources.DIALOG_FONT);
@@ -326,6 +328,7 @@ public class PHPCodeSnifferConfigurationBlock extends AbstractPEARPHPToolConfigu
 		// TODO Auto-generated method stub
 	}
 
+	@SuppressWarnings("unchecked")
 	private void doStandardButtonPressed(int index) {
 		Standard edited = null;
 		if (index != IDX_ADD) {
@@ -343,6 +346,7 @@ public class PHPCodeSnifferConfigurationBlock extends AbstractPEARPHPToolConfigu
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	protected final void updateModel(DialogField field) {
 		if (field == fStandardsList) {
 			StringBuffer customStandards = new StringBuffer();
@@ -429,10 +433,6 @@ public class PHPCodeSnifferConfigurationBlock extends AbstractPEARPHPToolConfigu
 		return PREF_DEBUG_PRINT_OUTPUT;
 	}
 
-	protected Key getPEARLibraryKey() {
-		return PREF_PEAR_LIBRARY;
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -494,7 +494,6 @@ public class PHPCodeSnifferConfigurationBlock extends AbstractPEARPHPToolConfigu
 
 		String customStandardPrefs = getValue(PREF_CUSTOM_STANDARD_NAMES);
 
-		String[] standards = PHPCodeSnifferPlugin.getDefault().getCodeSnifferStandards(libName);
 		String[] customStandards = {};
 		String[] customPaths = {};
 
@@ -505,20 +504,8 @@ public class PHPCodeSnifferConfigurationBlock extends AbstractPEARPHPToolConfigu
 			customPaths = getTokens(customPathPrefs, ";"); //$NON-NLS-1$
 		}
 
-		ArrayList<Standard> elements = new ArrayList<Standard>(standards.length + customStandards.length);
+		ArrayList<Standard> elements = new ArrayList<Standard>(customStandards.length);
 		ArrayList<Standard> checkedElements = new ArrayList<Standard>(activeList.size());
-
-		// CodeSniffer own standards
-		for (int i = 0; i < standards.length; i++) {
-			Standard standard = new Standard();
-			standard.name = standards[i].trim();
-			standard.custom = false;
-			standard.path = "";
-
-			elements.add(standard);
-			if (activeList.contains(standard.name))
-				checkedElements.add(standard);
-		}
 
 		// Custom standards
 		for (int i = 0; i < customStandards.length; i++) {

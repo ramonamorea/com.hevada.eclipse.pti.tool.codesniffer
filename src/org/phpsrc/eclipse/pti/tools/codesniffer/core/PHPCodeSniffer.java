@@ -259,23 +259,6 @@ public class PHPCodeSniffer extends AbstractPHPTool {
 	}
 
 	/**
-	 * Keep the old method for backward compatibility
-	 * 
-	 * @param standard
-	 * @param tabWidth
-	 * @return
-	 */
-	private String getCommandLineArgs(Standard standard, int tabWidth) {
-		String args = "--encoding=" + ResourcesPlugin.getEncoding() + " --report=xml --standard=" + (standard.custom
-			? OperatingSystem.escapeShellFileArg(standard.path) : OperatingSystem.escapeShellArg(standard.name));
-
-		if (tabWidth > 0)
-			args += " --tab-width=" + tabWidth;
-
-		return args + " " + PHPToolLauncher.COMMANDLINE_PLACEHOLDER_FILE;
-	}
-
-	/**
 	 * Build command line arguments with respect to extra argument.
 	 * 
 	 * @param standard
