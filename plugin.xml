@@ -2,7 +2,7 @@
 <?eclipse version="3.4"?>
 <plugin>
 	<extension
-		id="org.phpsrc.eclipse.pti.tools.codesniffer.validator.phpToolCodeSnifferMarker"
+		id="net.overscale.eclipse.pti.tools.codesniffer.validator.phpToolCodeSnifferMarker"
 		name="PHP CodeSniffer"
 		point="org.eclipse.core.resources.markers">
 		<persistent value="true"/>
@@ -19,10 +19,10 @@
 		name="PHP CodeSniffer Validator (for PHP Files)"
 		point="org.eclipse.wst.validation.validatorV2">
 		<validator
-			class="org.phpsrc.eclipse.pti.tools.codesniffer.validator.PHPCodeSnifferValidator"
+			class="net.overscale.eclipse.pti.tools.codesniffer.validator.PHPCodeSnifferValidator"
 			build="true"
 			manual="true"
-			markerId="org.phpsrc.eclipse.pti.tools.codesniffer.validator.phpToolCodeSnifferMarker"
+			markerId="net.overscale.eclipse.pti.tools.codesniffer.validator.phpToolCodeSnifferMarker"
 			sourceid="org.eclipse.php.core.phpsource"
 			version="1">
 			<include>
@@ -37,16 +37,16 @@
 		point="org.eclipse.ui.preferencePages">
 		<page
 			category="org.phpsrc.eclipse.pti.ui.preferences.PHPToolsPreferencePage"
-			class="org.phpsrc.eclipse.pti.tools.codesniffer.ui.preferences.PHPCodeSnifferPreferencePage"
-			id="org.phpsrc.eclipse.pti.tools.codesniffer.ui.preferences.PHPCodeSnifferPreferencePage"
+			class="net.overscale.eclipse.pti.tools.codesniffer.ui.preferences.PHPCodeSnifferPreferencePage"
+			id="net.overscale.eclipse.pti.tools.codesniffer.ui.preferences.PHPCodeSnifferPreferencePage"
 			name="PHP CodeSniffer">
 		</page>
 	</extension>
 	<extension point="org.eclipse.ui.propertyPages">
 		<page
 			category="org.phpsrc.eclipse.pti.ui.propertyPages.PHPToolsPreferencePage"
-			class="org.phpsrc.eclipse.pti.tools.codesniffer.ui.preferences.PHPCodeSnifferPreferencePage"
-			id="org.phpsrc.eclipse.pti.tools.codesniffer.ui.propertyPages.PHPCodeSnifferPreferencePage"
+			class="net.overscale.eclipse.pti.tools.codesniffer.ui.preferences.PHPCodeSnifferPreferencePage"
+			id="net.overscale.eclipse.pti.tools.codesniffer.ui.propertyPages.PHPCodeSnifferPreferencePage"
 			name="PHP CodeSniffer">
 			<enabledWhen>
 				<adapt type="org.eclipse.core.resources.IProject">
@@ -58,20 +58,20 @@
 	<extension
 		point="org.eclipse.ui.ide.markerResolution">
 		<markerResolutionGenerator
-			markerType="org.phpsrc.eclipse.pti.tools.codesniffer.validator.phpToolCodeSnifferMarker"
-			class="org.phpsrc.eclipse.pti.tools.codesniffer.ui.correction.CorrectionMarkerResolutionGenerator">
+			markerType="net.overscale.eclipse.pti.tools.codesniffer.validator.phpToolCodeSnifferMarker"
+			class="net.overscale.eclipse.pti.tools.codesniffer.ui.correction.CorrectionMarkerResolutionGenerator">
 		</markerResolutionGenerator>
 	</extension>
 
 	<extension
 		point="org.eclipse.ui.commands">
 		<category 
-			id="org.phpsrc.eclipse.pti.tools.codesniffer.ui.commands"
+			id="net.overscale.eclipse.pti.tools.codesniffer.ui.commands"
 			name="PHP CodeSniffer"> 
 		</category>
 		<command
-			id="org.phpsrc.eclipse.pti.tools.codesniffer.ui.commands.validateresources"
-			categoryId="org.phpsrc.eclipse.pti.tools.codesniffer.ui.commands"
+			id="net.overscale.eclipse.pti.tools.codesniffer.ui.commands.validateresources"
+			categoryId="net.overscale.eclipse.pti.tools.codesniffer.ui.commands"
 			name="PHP CodeSniffer">
 		</command>
 	</extension>
@@ -81,7 +81,7 @@
 		<menuContribution
 			locationURI="popup:org.phpsrc.eclipse.pti.ui.menus.phptools?after=additions">
 			<command
-				commandId="org.phpsrc.eclipse.pti.tools.codesniffer.ui.commands.validateresources"
+				commandId="net.overscale.eclipse.pti.tools.codesniffer.ui.commands.validateresources"
 				tooltip="Validate selected files or folders with PHP CodeSniffer"
 				icon="icons/obj16/validate_resource.gif">
 				<visibleWhen>
@@ -99,24 +99,24 @@
 		name="PHP CodeSniffer"
 		point="org.eclipse.ui.actionSets">
 		<actionSet
-			id="org.phpsrc.eclipse.pti.tools.codesniffer.ui.actionSet"
+			id="net.overscale.eclipse.pti.tools.codesniffer.ui.actionSet"
 			label="PHP CodeSniffer"
 			visible="false">
 			<action
-				id="org.phpsrc.eclipse.pti.tools.codesniffer.ui.action.ValidateResourcesAction"
-				definitionId="org.phpsrc.eclipse.pti.tools.codesniffer.ui.commands.validateresources"
+				id="net.overscale.eclipse.pti.tools.codesniffer.ui.action.ValidateResourcesAction"
+				definitionId="net.overscale.eclipse.pti.tools.codesniffer.ui.commands.validateresources"
 				label="PHP CodeSniffer"
 				icon="icons/obj16/validate_resource.gif"
-				toolbarPath="org.phpsrc.eclipse.pti.tools.codesniffer.ui.actionSet"
+				toolbarPath="net.overscale.eclipse.pti.tools.codesniffer.ui.actionSet"
 				tooltip="Validate with PHP CodeSniffer"
-				class="org.phpsrc.eclipse.pti.tools.codesniffer.ui.actions.ValidateResourcesAction"
+				class="net.overscale.eclipse.pti.tools.codesniffer.ui.actions.ValidateResourcesAction"
 				enablesFor="*">
 			</action>
 		</actionSet>
 	</extension>
 	<extension point="org.eclipse.ui.perspectiveExtensions">
 		<perspectiveExtension targetID="org.eclipse.php.perspective">
-			<actionSet id="org.phpsrc.eclipse.pti.tools.codesniffer.ui.actionSet" />
+			<actionSet id="net.overscale.eclipse.pti.tools.codesniffer.ui.actionSet" />
 		</perspectiveExtension>
 	</extension>
 </plugin>
