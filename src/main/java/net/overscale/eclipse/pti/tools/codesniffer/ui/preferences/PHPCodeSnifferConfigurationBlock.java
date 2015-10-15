@@ -26,18 +26,18 @@ import org.eclipse.php.internal.ui.wizards.fields.CheckedListDialogField;
 import org.eclipse.php.internal.ui.wizards.fields.DialogField;
 import org.eclipse.php.internal.ui.wizards.fields.IDialogFieldListener;
 import org.eclipse.php.internal.ui.wizards.fields.IListAdapter;
+import org.eclipse.php.internal.ui.wizards.fields.IStringButtonAdapter;
 import org.eclipse.php.internal.ui.wizards.fields.ListDialogField;
+import org.eclipse.php.internal.ui.wizards.fields.StringButtonDialogField;
 import org.eclipse.php.internal.ui.wizards.fields.StringDialogField;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.ui.preferences.IWorkbenchPreferenceContainer;
 import org.phpsrc.eclipse.pti.ui.widgets.listener.NumberOnlyVerifyListener;
@@ -46,7 +46,6 @@ import net.overscale.eclipse.pti.tools.codesniffer.PHPCodeSnifferPlugin;
 import net.overscale.eclipse.pti.tools.codesniffer.core.PHPCodeSniffer;
 import net.overscale.eclipse.pti.tools.codesniffer.core.preferences.Standard;
 
-@SuppressWarnings("restriction")
 public class PHPCodeSnifferConfigurationBlock extends AbstractPEARPHPToolConfigurationBlock {
 
 	private static final Key PREF_PHP_EXECUTABLE = getCodeSnifferKey(PHPCodeSnifferPreferenceNames.PREF_PHP_EXECUTABLE);
@@ -75,7 +74,11 @@ public class PHPCodeSnifferConfigurationBlock extends AbstractPEARPHPToolConfigu
 	private static final int IDX_EDIT = 1;
 	private static final int IDX_REMOVE = 2;
 
+	private final StringDialogField fNameDialogField;
+	private final StringButtonDialogField fPathDialogField;
+	
 	private final CheckedListDialogField fStandardsList;
+	private final StringDialogField fPhpCsPath;
 	private final StringDialogField fTabWidth;
 	private final StringDialogField fFileExtension;
 	private final StringDialogField fIgnorePattern;
@@ -194,6 +197,33 @@ public class PHPCodeSnifferConfigurationBlock extends AbstractPEARPHPToolConfigu
 		IWorkbenchPreferenceContainer container) {
 		super(context, project, getKeys(), container);
 
+		String existingPath = "";
+		fPathDialogField = new StringButtonDialogField(new IStringButtonAdapter() {
+			public void changeControlPressed(DialogField field) {
+				DirectoryDialog dialog = new DirectoryDialog(getShell());
+				dialog.setFilterPath(fPathDialogField.getText());
+				dialog.setText("Select the library path");
+				dialog.setMessage("Please select the path which represent the PEAR library.");
+				String newPath = dialog.open();
+				if (newPath != null) {
+					fPathDialogField.setText(newPath);
+//					doValidation();
+				}
+			}
+		});
+
+		fPathDialogField.setLabelText("Path:");
+		fPathDialogField.setButtonLabel("Browse...");
+		fPathDialogField.setText((existingPath != null) ? existingPath : "");
+
+		fNameDialogField = new StringDialogField();
+		fNameDialogField.setLabelText("Name:");
+//		LibraryStandardInputAdapter adapter = new LibraryStandardInputAdapter();
+//		fNameDialogField.setDialogFieldListener(adapter);
+		fNameDialogField.setText((existingPath != null) ? existingPath : "");
+		
+		
+		
 		StandardAdapter adapter = new StandardAdapter();
 
 		String[] buttons = new String[] { "New...", "Edit...", "Remove" };
@@ -215,6 +245,9 @@ public class PHPCodeSnifferConfigurationBlock extends AbstractPEARPHPToolConfigu
 		} else {
 			fStandardsList.enableButton(IDX_EDIT, false);
 		}
+		
+		fPhpCsPath = new StringDialogField();
+		fPhpCsPath.setLabelText("PHP CodeSniffer Path:");
 
 		fTabWidth = new StringDialogField();
 		fTabWidth.setLabelText("Tab width:");
@@ -256,12 +289,22 @@ public class PHPCodeSnifferConfigurationBlock extends AbstractPEARPHPToolConfigu
 	private Composite createStandardsTabContent(Composite folder) {
 
 		PixelConverter conv = new PixelConverter(folder);
+		
 
 		GridLayout markersLayout = new GridLayout();
 		markersLayout.marginHeight = 5;
 		markersLayout.marginWidth = 0;
 		markersLayout.numColumns = 3;
 
+		Group csPathGroup = new Group(folder, SWT.NULL);
+		csPathGroup.setText("CodeSniffer");
+		csPathGroup.setLayout(markersLayout);
+		
+		GridData csPathData = new GridData(GridData.FILL_HORIZONTAL);
+		csPathGroup.setLayoutData(csPathData);
+		
+		fPathDialogField.doFillIntoGrid(csPathGroup, 3);
+				
 		Group markersGroup = new Group(folder, SWT.NULL);
 		markersGroup.setText("CodeSniffer Standards");
 		markersGroup.setLayout(markersLayout);
@@ -302,15 +345,8 @@ public class PHPCodeSnifferConfigurationBlock extends AbstractPEARPHPToolConfigu
 		createDialogFieldsWithInfoText(folder, new DialogField[] { fIgnoreSniffs }, "Ignore Sniffs",
 			new String[] { "Sniffs are separated by a comma" });
 
-		unpackStandards(pearLibraryCombo.getText());
-		pearLibraryCombo.addSelectionListener(new SelectionListener() {
-			public void widgetSelected(SelectionEvent e) {
-				unpackStandards(((Combo) e.widget).getText());
-			}
-
-			public void widgetDefaultSelected(SelectionEvent e) {
-			}
-		});
+		//TODO
+		unpackStandards("");
 
 		Group extraArgsGroup = new Group(folder, SWT.NULL);
 		extraArgsGroup.setText("Extra Arguments");
@@ -437,7 +473,7 @@ public class PHPCodeSnifferConfigurationBlock extends AbstractPEARPHPToolConfigu
 	 */
 
 	protected void updateControls() {
-		unpackStandards(pearLibraryCombo.getText());
+		unpackStandards("");
 		unpackTabWidth();
 		unpackFileExtensions();
 		unpackIgnorePattern();

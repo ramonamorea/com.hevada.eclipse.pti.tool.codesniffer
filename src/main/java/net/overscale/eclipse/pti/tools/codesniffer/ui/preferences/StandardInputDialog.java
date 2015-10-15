@@ -80,7 +80,9 @@ public class StandardInputDialog extends StatusDialog {
 				}
 			}
 		});
+		
 		fPathDialogField.setLabelText("Path:");
+		
 		fPathDialogField.setButtonLabel("Browse...");
 		fPathDialogField.setText((standard != null) ? standard.path : ""); //$NON-NLS-1$
 
