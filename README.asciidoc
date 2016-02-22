@@ -9,10 +9,14 @@ Sadly, it hasn't been updated for years. I have to use these great tools in my d
 You'll have to compile the plugin or you can take precompiled https://github.com/Webaib/org.phpsrc.eclipse.pti.tool.codesniffer/blob/master/plugins.7z?raw=true[version]
 
 == ToDo
+:o: pass:normal[+[ ]+]
+:c: pass:normal[+[&#10004;]+]
 
-* [x] https://github.com/Webaib/org.phpsrc.eclipse.pti.core[PHP Tool Integration Core]
-* [x] https://github.com/Webaib/org.phpsrc.eclipse.pti.tool.codesniffer[PHP Tool Codesniffer]
-* [ ] https://github.com/Webaib/org.phpsrc.eclipse.pti.tool.phpunit[PHP Tool PHPUnit]
+{c} https://github.com/Webaib/org.phpsrc.eclipse.pti.core[PHP Tool Integration Core]
+
+{c} PHP Tool Codesniffer
+
+{o} https://github.com/Webaib/org.phpsrc.eclipse.pti.tool.phpunit[PHP Tool PHPUnit]
 
 == FAQ
 
