@@ -22,7 +22,7 @@ You'll have to compile the plugin or you can take precompiled https://github.com
 
 === Path to the CodeSniffer
 
-There's to main option how you can set.
+There are two main options how you can set the path.
 
 . You can set the path (to the CodeSniffer phar or php file) with eclipse (Window/Preferences/PHP Tools/PHP CodeSniffer) as well as in the project settings.
 . Or you can use the environment variable "PHPCS_PATH" (in eclipse this path property must be empty).
