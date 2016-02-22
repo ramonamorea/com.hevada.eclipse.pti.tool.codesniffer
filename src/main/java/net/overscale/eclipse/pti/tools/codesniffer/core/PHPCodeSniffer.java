@@ -47,12 +47,14 @@ import net.overscale.eclipse.pti.ui.Logger;
 
 public class PHPCodeSniffer extends AbstractPHPTool {
 
+	private static final String PHPCS_PATH = "PHPCS_PATH";
+	
 	public final static QualifiedName QUALIFIED_NAME = new QualifiedName(PHPCodeSnifferPlugin.PLUGIN_ID,
 		"phpCodeSnifferTool");
+	
 	private static PHPCodeSniffer instance;
 
-	protected PHPCodeSniffer() {
-	}
+	protected PHPCodeSniffer() {}
 
 	public static PHPCodeSniffer getInstance() {
 		if (instance == null)
@@ -260,7 +262,7 @@ public class PHPCodeSniffer extends AbstractPHPTool {
 			System.out.println("Path to CS from the plugin settings: " + csPath);
 		} else {
 			Map<String, String> env = System.getenv();
-			csPath = env.containsKey("PHPCS_PATH") ? env.get("PHPCS_PATH") : "/php/tools/phpcs.php";
+			csPath = env.containsKey(PHPCS_PATH) ? env.get(PHPCS_PATH) : "/php/tools/phpcs.php";
 			System.out.println("Path to CS from the environment variable: " + csPath);
 		}
 		
