@@ -10,9 +10,9 @@ You'll have to compile the plugin or you can take precompiled https://github.com
 
 == ToDo
 
-- [x] https://github.com/Webaib/org.phpsrc.eclipse.pti.core[PHP Tool Integration Core]
-- [x] https://github.com/Webaib/org.phpsrc.eclipse.pti.tool.codesniffer[PHP Tool Codesniffer]
-- [ ] https://github.com/Webaib/org.phpsrc.eclipse.pti.tool.phpunit[PHP Tool PHPUnit]
+* [x] https://github.com/Webaib/org.phpsrc.eclipse.pti.core[PHP Tool Integration Core]
+* [x] https://github.com/Webaib/org.phpsrc.eclipse.pti.tool.codesniffer[PHP Tool Codesniffer]
+* [ ] https://github.com/Webaib/org.phpsrc.eclipse.pti.tool.phpunit[PHP Tool PHPUnit]
 
 == FAQ
 
