@@ -21,16 +21,16 @@ public class PHPCodeSnifferPreferences extends AbstractPEARPHPToolPreferences {
 	 * 
 	 * @param phpExecutable
 	 * @param printOutput
-	 * @param pearLibraryName
+	 * @param phpCs
 	 * @param standards
 	 * @param tabWidth
 	 * @param fileExtensions
 	 * @param ignorePattern
 	 * @param ignoreSniffs
 	 */
-	public PHPCodeSnifferPreferences(String phpExecutable, boolean printOutput, Standard[] standards, int tabWidth,
+	public PHPCodeSnifferPreferences(String phpExecutable, boolean printOutput, String phpCs, Standard[] standards, int tabWidth,
 		String[] fileExtensions, String ignorePattern, String[] ignoreSniffs) {
-		this(phpExecutable, printOutput, standards, tabWidth, fileExtensions, ignorePattern, ignoreSniffs, null);
+		this(phpExecutable, printOutput, phpCs, standards, tabWidth, fileExtensions, ignorePattern, ignoreSniffs, null);
 	}
 
 	/**
@@ -38,16 +38,16 @@ public class PHPCodeSnifferPreferences extends AbstractPEARPHPToolPreferences {
 	 * 
 	 * @param phpExecutable
 	 * @param printOutput
-	 * @param pearLibraryName
+	 * @param phpCs
 	 * @param standards
 	 * @param tabWidth
 	 * @param fileExtensions
 	 * @param ignorePattern
 	 * @param ignoreSniffs
 	 */
-	public PHPCodeSnifferPreferences(String phpExecutable, boolean printOutput, Standard[] standards, int tabWidth,
+	public PHPCodeSnifferPreferences(String phpExecutable, boolean printOutput, String phpCs, Standard[] standards, int tabWidth,
 		String[] fileExtensions, String ignorePattern, String[] ignoreSniffs, String extraArgs) {
-		super(phpExecutable, printOutput);
+		super(phpExecutable, printOutput, phpCs);
 		this.standards = standards;
 		this.tabWidth = tabWidth;
 		this.fileExtensions = fileExtensions;

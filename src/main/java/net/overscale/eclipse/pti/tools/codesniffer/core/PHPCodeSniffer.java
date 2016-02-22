@@ -25,25 +25,25 @@ import org.eclipse.core.runtime.QualifiedName;
 import org.eclipse.dltk.compiler.problem.DefaultProblemIdentifier;
 import org.eclipse.dltk.compiler.problem.IProblem;
 import org.eclipse.dltk.compiler.problem.ProblemSeverity;
-import org.phpsrc.eclipse.pti.core.launching.OperatingSystem;
-import org.phpsrc.eclipse.pti.core.launching.PHPToolLauncher;
-import org.phpsrc.eclipse.pti.core.php.inifile.INIFileEntry;
-import org.phpsrc.eclipse.pti.core.php.inifile.INIFileUtil;
-import org.phpsrc.eclipse.pti.core.php.source.ISourceFile;
-import org.phpsrc.eclipse.pti.core.php.source.PHPSourceFile;
-import org.phpsrc.eclipse.pti.core.tools.AbstractPHPTool;
-import org.phpsrc.eclipse.pti.ui.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
+import net.overscale.eclipse.pti.core.launching.OperatingSystem;
+import net.overscale.eclipse.pti.core.launching.PHPToolLauncher;
+import net.overscale.eclipse.pti.core.php.inifile.INIFileEntry;
+import net.overscale.eclipse.pti.core.php.inifile.INIFileUtil;
+import net.overscale.eclipse.pti.core.php.source.ISourceFile;
+import net.overscale.eclipse.pti.core.php.source.PHPSourceFile;
+import net.overscale.eclipse.pti.core.tools.AbstractPHPTool;
 import net.overscale.eclipse.pti.tools.codesniffer.PHPCodeSnifferPlugin;
 import net.overscale.eclipse.pti.tools.codesniffer.core.preferences.PHPCodeSnifferPreferences;
 import net.overscale.eclipse.pti.tools.codesniffer.core.preferences.PHPCodeSnifferPreferencesFactory;
 import net.overscale.eclipse.pti.tools.codesniffer.core.preferences.Standard;
 import net.overscale.eclipse.pti.tools.codesniffer.core.problem.CodeSnifferProblem;
+import net.overscale.eclipse.pti.ui.Logger;
 
 public class PHPCodeSniffer extends AbstractPHPTool {
 
@@ -216,8 +216,9 @@ public class PHPCodeSniffer extends AbstractPHPTool {
 			Logger.logException(e);
 		}
 
-		launcher = new PHPToolLauncher(QUALIFIED_NAME, getPHPExecutable(prefs.getPhpExecutable()), getScriptFile(),
-			getCommandLineArgs(standard, prefs), getPHPINIEntries(prefs, project, standard));
+		launcher = new PHPToolLauncher(QUALIFIED_NAME, getPHPExecutable(prefs.getPhpExecutable()), 
+			getScriptFile(prefs.getPhpCs()), getCommandLineArgs(standard, prefs), 
+			getPHPINIEntries(prefs, project, standard));
 
 		launcher.setPrintOuput(prefs.isPrintOutput());
 
@@ -252,10 +253,17 @@ public class PHPCodeSniffer extends AbstractPHPTool {
 		return entries;
 	}
 
-	public static IPath getScriptFile() {
-		Map<String, String> env = System.getenv();
-		String csPath = env.containsKey("PHPCS_PATH") ? env.get("PHPCS_PATH") : "/php/tools/phpcs.php";
-		System.out.println("Path to CS: " + csPath);
+	public static IPath getScriptFile(String phpCs) {
+		String csPath = "";
+		if (phpCs != null && !phpCs.isEmpty()) {
+			csPath = phpCs;
+			System.out.println("Path to CS from the plugin settings: " + csPath);
+		} else {
+			Map<String, String> env = System.getenv();
+			csPath = env.containsKey("PHPCS_PATH") ? env.get("PHPCS_PATH") : "/php/tools/phpcs.php";
+			System.out.println("Path to CS from the environment variable: " + csPath);
+		}
+		
 		return PHPCodeSnifferPlugin.getDefault().resolvePluginResource(csPath);
 	}
 

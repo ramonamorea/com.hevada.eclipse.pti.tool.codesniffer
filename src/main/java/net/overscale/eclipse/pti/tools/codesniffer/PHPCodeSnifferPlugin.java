@@ -11,7 +11,8 @@ package net.overscale.eclipse.pti.tools.codesniffer;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IPath;
 import org.osgi.framework.BundleContext;
-import org.phpsrc.eclipse.pti.core.AbstractPHPToolPlugin;
+
+import net.overscale.eclipse.pti.core.AbstractPHPToolPlugin;
 
 /**
  * The activator class controls the plug-in life cycle
@@ -19,7 +20,7 @@ import org.phpsrc.eclipse.pti.core.AbstractPHPToolPlugin;
 public class PHPCodeSnifferPlugin extends AbstractPHPToolPlugin {
 
 	// The plug-in ID
-	public static final String PLUGIN_ID = "org.phpsrc.eclipse.pti.tools.codesniffer";
+	public static final String PLUGIN_ID = "net.overscale.eclipse.pti.tools.codesniffer";
 
 	// The shared instance
 	private static PHPCodeSnifferPlugin plugin;

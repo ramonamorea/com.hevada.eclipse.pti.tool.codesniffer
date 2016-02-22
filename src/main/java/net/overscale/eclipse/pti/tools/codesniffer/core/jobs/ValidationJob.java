@@ -20,9 +20,9 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.wst.validation.ValidationState;
-import org.phpsrc.eclipse.pti.ui.Logger;
 
 import net.overscale.eclipse.pti.tools.codesniffer.validator.PHPCodeSnifferValidator;
+import net.overscale.eclipse.pti.ui.Logger;
 
 public class ValidationJob extends Job {
 

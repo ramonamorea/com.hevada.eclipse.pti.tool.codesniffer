@@ -38,13 +38,14 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.DirectoryDialog;
+import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.ui.preferences.IWorkbenchPreferenceContainer;
-import org.phpsrc.eclipse.pti.ui.widgets.listener.NumberOnlyVerifyListener;
 
 import net.overscale.eclipse.pti.tools.codesniffer.PHPCodeSnifferPlugin;
 import net.overscale.eclipse.pti.tools.codesniffer.core.PHPCodeSniffer;
 import net.overscale.eclipse.pti.tools.codesniffer.core.preferences.Standard;
+import net.overscale.eclipse.pti.ui.widgets.listener.NumberOnlyVerifyListener;
 
 public class PHPCodeSnifferConfigurationBlock extends AbstractPEARPHPToolConfigurationBlock {
 
@@ -75,10 +76,9 @@ public class PHPCodeSnifferConfigurationBlock extends AbstractPEARPHPToolConfigu
 	private static final int IDX_REMOVE = 2;
 
 	private final StringDialogField fNameDialogField;
-	private final StringButtonDialogField fPathDialogField;
-	
+	private final StringButtonDialogField fPhpCsField;
+
 	private final CheckedListDialogField fStandardsList;
-	private final StringDialogField fPhpCsPath;
 	private final StringDialogField fTabWidth;
 	private final StringDialogField fFileExtension;
 	private final StringDialogField fIgnorePattern;
@@ -197,33 +197,29 @@ public class PHPCodeSnifferConfigurationBlock extends AbstractPEARPHPToolConfigu
 		IWorkbenchPreferenceContainer container) {
 		super(context, project, getKeys(), container);
 
-		String existingPath = "";
-		fPathDialogField = new StringButtonDialogField(new IStringButtonAdapter() {
+		fPhpCsField = new StringButtonDialogField(new IStringButtonAdapter() {
 			public void changeControlPressed(DialogField field) {
-				DirectoryDialog dialog = new DirectoryDialog(getShell());
-				dialog.setFilterPath(fPathDialogField.getText());
+				FileDialog dialog = new FileDialog(getShell());
+				dialog.setFilterPath(fPhpCsField.getText());
 				dialog.setText("Select the library path");
-				dialog.setMessage("Please select the path which represent the PEAR library.");
 				String newPath = dialog.open();
 				if (newPath != null) {
-					fPathDialogField.setText(newPath);
-//					doValidation();
+					fPhpCsField.setText(newPath);
 				}
 			}
 		});
 
-		fPathDialogField.setLabelText("Path:");
-		fPathDialogField.setButtonLabel("Browse...");
-		fPathDialogField.setText((existingPath != null) ? existingPath : "");
+		fPhpCsField.setLabelText("Path:");
+		fPhpCsField.setButtonLabel("Browse...");
+		String existingPath = getValue(PREF_PHPCS);
+		fPhpCsField.setText((existingPath != null) ? existingPath : "");
 
 		fNameDialogField = new StringDialogField();
 		fNameDialogField.setLabelText("Name:");
-//		LibraryStandardInputAdapter adapter = new LibraryStandardInputAdapter();
-//		fNameDialogField.setDialogFieldListener(adapter);
+		// LibraryStandardInputAdapter adapter = new LibraryStandardInputAdapter();
+		// fNameDialogField.setDialogFieldListener(adapter);
 		fNameDialogField.setText((existingPath != null) ? existingPath : "");
-		
-		
-		
+
 		StandardAdapter adapter = new StandardAdapter();
 
 		String[] buttons = new String[] { "New...", "Edit...", "Remove" };
@@ -245,28 +241,21 @@ public class PHPCodeSnifferConfigurationBlock extends AbstractPEARPHPToolConfigu
 		} else {
 			fStandardsList.enableButton(IDX_EDIT, false);
 		}
-		
-		fPhpCsPath = new StringDialogField();
-		fPhpCsPath.setLabelText("PHP CodeSniffer Path:");
 
 		fTabWidth = new StringDialogField();
 		fTabWidth.setLabelText("Tab width:");
-
 		unpackTabWidth();
 
 		fFileExtension = new StringDialogField();
 		fFileExtension.setLabelText("File Extensions:");
-
 		unpackFileExtensions();
 
 		fIgnorePattern = new StringDialogField();
 		fIgnorePattern.setLabelText("Patterns:");
-
 		unpackIgnorePattern();
 
 		fIgnoreSniffs = new StringDialogField();
 		fIgnoreSniffs.setLabelText("Sniffs:");
-
 		unpackIgnoreSniffs();
 
 		fExtraArgs = new StringDialogField();
@@ -274,7 +263,7 @@ public class PHPCodeSnifferConfigurationBlock extends AbstractPEARPHPToolConfigu
 	}
 
 	private static Key[] getKeys() {
-		return new Key[] { PREF_PHP_EXECUTABLE, PREF_DEBUG_PRINT_OUTPUT, PREF_CUSTOM_STANDARD_NAMES,
+		return new Key[] { PREF_PHP_EXECUTABLE, PREF_PHPCS, PREF_DEBUG_PRINT_OUTPUT, PREF_CUSTOM_STANDARD_NAMES,
 			PREF_CUSTOM_STANDARD_PATHS, PREF_ACTIVE_STANDARDS, PREF_DEFAULT_TAB_WITH, PREF_FILE_EXTENSIONS,
 			PREF_IGNORE_PATTERN, PREF_IGNORE_SNIFFS, PREF_EXTRA_ARGS };
 	}
@@ -289,7 +278,6 @@ public class PHPCodeSnifferConfigurationBlock extends AbstractPEARPHPToolConfigu
 	private Composite createStandardsTabContent(Composite folder) {
 
 		PixelConverter conv = new PixelConverter(folder);
-		
 
 		GridLayout markersLayout = new GridLayout();
 		markersLayout.marginHeight = 5;
@@ -299,12 +287,12 @@ public class PHPCodeSnifferConfigurationBlock extends AbstractPEARPHPToolConfigu
 		Group csPathGroup = new Group(folder, SWT.NULL);
 		csPathGroup.setText("CodeSniffer");
 		csPathGroup.setLayout(markersLayout);
-		
+
 		GridData csPathData = new GridData(GridData.FILL_HORIZONTAL);
 		csPathGroup.setLayoutData(csPathData);
-		
-		fPathDialogField.doFillIntoGrid(csPathGroup, 3);
-				
+
+		fPhpCsField.doFillIntoGrid(csPathGroup, 3);
+
 		Group markersGroup = new Group(folder, SWT.NULL);
 		markersGroup.setText("CodeSniffer Standards");
 		markersGroup.setLayout(markersLayout);
@@ -345,7 +333,7 @@ public class PHPCodeSnifferConfigurationBlock extends AbstractPEARPHPToolConfigu
 		createDialogFieldsWithInfoText(folder, new DialogField[] { fIgnoreSniffs }, "Ignore Sniffs",
 			new String[] { "Sniffs are separated by a comma" });
 
-		//TODO
+		// TODO
 		unpackStandards("");
 
 		Group extraArgsGroup = new Group(folder, SWT.NULL);
@@ -430,6 +418,7 @@ public class PHPCodeSnifferConfigurationBlock extends AbstractPEARPHPToolConfigu
 		} catch (Exception e) {
 		}
 		setValue(PREF_EXTRA_ARGS, fExtraArgs.getText());
+		setValue(PREF_PHPCS, fPhpCsField.getText());
 		setValue(PREF_DEFAULT_TAB_WITH, "" + tabWidth);
 		setValue(PREF_FILE_EXTENSIONS, "" + fFileExtension.getText());
 		setValue(PREF_IGNORE_PATTERN, fIgnorePattern.getText());

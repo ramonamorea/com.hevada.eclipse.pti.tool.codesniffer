@@ -27,12 +27,19 @@
 
 package net.overscale.eclipse.pti.tools.codesniffer.core.preferences;
 
-import org.phpsrc.eclipse.pti.core.preferences.AbstractPHPToolPreferences;
+import net.overscale.eclipse.pti.core.preferences.AbstractPHPToolPreferences;
 
 public abstract class AbstractPEARPHPToolPreferences extends AbstractPHPToolPreferences {
 
+	protected String phpCs;
 
-	protected AbstractPEARPHPToolPreferences(String phpExecutable, boolean printOutput) {
+	protected AbstractPEARPHPToolPreferences(String phpExecutable, boolean printOutput, String phpCs) {
 		super(phpExecutable, printOutput);
+		
+		this.phpCs = phpCs;
+	}
+	
+	public String getPhpCs() {
+		return phpCs;
 	}
 }

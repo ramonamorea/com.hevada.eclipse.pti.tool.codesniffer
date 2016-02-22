@@ -32,11 +32,11 @@ import org.eclipse.php.internal.ui.preferences.util.Key;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.preferences.IWorkbenchPreferenceContainer;
-import org.phpsrc.eclipse.pti.ui.preferences.AbstractPHPToolConfigurationBlock;
+
+import net.overscale.eclipse.pti.ui.preferences.AbstractPHPToolConfigurationBlock;
 
 public abstract class AbstractPEARPHPToolConfigurationBlock extends AbstractPHPToolConfigurationBlock {
 

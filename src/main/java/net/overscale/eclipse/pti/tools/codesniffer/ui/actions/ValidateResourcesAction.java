@@ -10,9 +10,9 @@ package net.overscale.eclipse.pti.tools.codesniffer.ui.actions;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.jface.action.IAction;
-import org.phpsrc.eclipse.pti.ui.actions.ResourceAction;
 
 import net.overscale.eclipse.pti.tools.codesniffer.core.jobs.ValidationJob;
+import net.overscale.eclipse.pti.ui.actions.ResourceAction;
 
 public class ValidateResourcesAction extends ResourceAction {
 

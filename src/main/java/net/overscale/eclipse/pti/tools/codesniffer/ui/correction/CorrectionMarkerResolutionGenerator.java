@@ -13,7 +13,8 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.ui.IMarkerResolution;
 import org.eclipse.ui.IMarkerResolution2;
 import org.eclipse.ui.IMarkerResolutionGenerator2;
-import org.phpsrc.eclipse.pti.ui.Logger;
+
+import net.overscale.eclipse.pti.ui.Logger;
 
 public class CorrectionMarkerResolutionGenerator implements IMarkerResolutionGenerator2 {
 

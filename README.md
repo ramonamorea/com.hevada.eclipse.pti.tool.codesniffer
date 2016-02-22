@@ -5,7 +5,7 @@ Sadly, it hasn't been updated for years. I have to use these great tools in my d
 
 ## Installation
 
-You'll have to install the official package from [PHPsrc update site](http://www.phpsrc.org/eclipse/pti/)
+You'll have to compile the plugin or just 
 
 ```text
 http://www.phpsrc.org/eclipse/pti/

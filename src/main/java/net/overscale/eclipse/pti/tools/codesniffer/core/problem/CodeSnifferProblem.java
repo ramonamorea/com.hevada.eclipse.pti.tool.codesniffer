@@ -10,7 +10,8 @@ package net.overscale.eclipse.pti.tools.codesniffer.core.problem;
 
 import org.eclipse.dltk.compiler.problem.IProblemIdentifier;
 import org.eclipse.dltk.compiler.problem.ProblemSeverity;
-import org.phpsrc.eclipse.pti.core.compiler.problem.DefaultProblem;
+
+import net.overscale.eclipse.pti.core.compiler.problem.DefaultProblem;
 
 public class CodeSnifferProblem extends DefaultProblem {
 

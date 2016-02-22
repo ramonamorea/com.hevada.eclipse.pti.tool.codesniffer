@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>org.phpsrc.eclipse.pti.tool.codesniffer</name>
+	<name>net.overscale.eclipse.pti.tools.codesniffer</name>
 	<comment></comment>
 	<projects>
 	</projects>

@@ -14,15 +14,15 @@ import org.eclipse.php.internal.ui.preferences.PropertyAndPreferencePage;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.preferences.IWorkbenchPreferenceContainer;
-import org.phpsrc.eclipse.pti.core.launching.PHPToolLauncher;
 
+import net.overscale.eclipse.pti.core.launching.PHPToolLauncher;
 import net.overscale.eclipse.pti.tools.codesniffer.PHPCodeSnifferPlugin;
 import net.overscale.eclipse.pti.tools.codesniffer.core.PHPCodeSniffer;
 
 public class PHPCodeSnifferPreferencePage extends PropertyAndPreferencePage {
 
-	public static final String PREF_ID = "org.phpsrc.eclipse.pti.tools.codesniffer.ui.preferences.StandardPreferencePage"; //$NON-NLS-1$
-	public static final String PROP_ID = "org.phpsrc.eclipse.pti.tools.codesniffer.ui.propertyPages.StandardPreferencePage"; //$NON-NLS-1$
+	public static final String PREF_ID = "net.overscale.eclipse.pti.tools.codesniffer.ui.preferences.StandardPreferencePage"; //$NON-NLS-1$
+	public static final String PROP_ID = "net.overscale.eclipse.pti.tools.codesniffer.ui.propertyPages.StandardPreferencePage"; //$NON-NLS-1$
 
 	private PHPCodeSnifferConfigurationBlock fConfigurationBlock;
 
@@ -119,7 +119,7 @@ public class PHPCodeSnifferPreferencePage extends PropertyAndPreferencePage {
 			return false;
 		}
 
-		PHPToolLauncher.deleteAllConfigs(PHPCodeSniffer.getScriptFile().toOSString());
+		PHPToolLauncher.deleteAllConfigs(PHPCodeSniffer.getScriptFile("").toOSString());
 
 		return super.performOk();
 	}

@@ -41,6 +41,7 @@ public class PHPCodeSnifferPreferencesFactory {
 		// standard, so we must use the path instead of the name.
 		String defaultStandard = prefs.getString(PHPCodeSnifferPreferenceNames.PREF_DEFAULT_STANDARD_PATH);
 		String activeStandards = prefs.getString(PHPCodeSnifferPreferenceNames.PREF_ACTIVE_STANDARDS);
+		String phpCs = prefs.getString(PHPCodeSnifferPreferenceNames.PREF_PHPCS);
 		String customStandardNames = prefs.getString(PHPCodeSnifferPreferenceNames.PREF_CUSTOM_STANDARD_NAMES);
 		String customStandardPaths = prefs.getString(PHPCodeSnifferPreferenceNames.PREF_CUSTOM_STANDARD_PATHS);
 
@@ -59,6 +60,7 @@ public class PHPCodeSnifferPreferencesFactory {
 
 				defaultStandard = node.get(PHPCodeSnifferPreferenceNames.PREF_DEFAULT_STANDARD_PATH, defaultStandard);
 				activeStandards = node.get(PHPCodeSnifferPreferenceNames.PREF_ACTIVE_STANDARDS, activeStandards);
+				phpCs = node.get(PHPCodeSnifferPreferenceNames.PREF_PHPCS, phpCs);
 				customStandardNames = node.get(PHPCodeSnifferPreferenceNames.PREF_CUSTOM_STANDARD_NAMES,
 						customStandardNames);
 				customStandardPaths = node.get(PHPCodeSnifferPreferenceNames.PREF_CUSTOM_STANDARD_PATHS,
@@ -107,7 +109,7 @@ public class PHPCodeSnifferPreferencesFactory {
 			standards.add(standard);
 		}
 
-		return new PHPCodeSnifferPreferences(phpExe, printOutput, standards.toArray(new Standard[0]),
+		return new PHPCodeSnifferPreferences(phpExe, printOutput, phpCs, standards.toArray(new Standard[0]),
 				tabWidth, fileExtensionsList, ignorePattern, ignoreSniffs == null || ignoreSniffs.length() == 0 ? null
 						: ignoreSniffs.split(" *, *"), extraArgs);
 	}

@@ -19,15 +19,17 @@ import org.eclipse.dltk.compiler.problem.IProblem;
 import org.eclipse.wst.validation.AbstractValidator;
 import org.eclipse.wst.validation.ValidationResult;
 import org.eclipse.wst.validation.ValidationState;
-import org.phpsrc.eclipse.pti.core.PHPToolkitUtil;
-import org.phpsrc.eclipse.pti.ui.Logger;
 
+import net.overscale.eclipse.pti.core.PHPToolkitUtil;
 import net.overscale.eclipse.pti.tools.codesniffer.ICodeSnifferConstants;
 import net.overscale.eclipse.pti.tools.codesniffer.core.PHPCodeSniffer;
 import net.overscale.eclipse.pti.tools.codesniffer.core.preferences.PHPCodeSnifferPreferences;
 import net.overscale.eclipse.pti.tools.codesniffer.core.preferences.PHPCodeSnifferPreferencesFactory;
+import net.overscale.eclipse.pti.ui.Logger;
 
 public class PHPCodeSnifferValidator extends AbstractValidator {
+
+	private static final String CS_MARKER_ID = "net.overscale.eclipse.pti.tools.codesniffer.CSMarker";
 
 	public ValidationResult validate(IResource resource, int kind, ValidationState state, IProgressMonitor monitor) {
 		// process only PHP files
@@ -72,8 +74,7 @@ public class PHPCodeSnifferValidator extends AbstractValidator {
 		try {
 			problems = cs.parse(file);
 			for (IProblem problem : problems) {
-				IMarker marker = file.createMarker(ICodeSnifferConstants.VALIDATOR_CODESNIFFER_MARKER);
-				marker.setAttribute(IMarker.PROBLEM, true);
+				IMarker marker = file.createMarker(CS_MARKER_ID);
 				marker.setAttribute(IMarker.LINE_NUMBER, problem.getSourceLineNumber());
 
 				if (problem.isWarning()) {
