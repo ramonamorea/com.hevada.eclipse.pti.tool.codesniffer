@@ -6,7 +6,7 @@ Sadly, it hasn't been updated for years. I have to use these great tools in my d
 
 == Installation
 
-You'll have to compile the plugin or you can take precompiled https://github.com/Webaib/org.phpsrc.eclipse.pti.tool.codesniffer/blob/master/plugins.7z?raw=true[version]
+You'll have to compile the plugin or you can take precompiled https://github.com/Webaib/org.phpsrc.eclipse.pti.tool.codesniffer/blob/master/plugins.7z?raw=true[version] and put it in the "eclipse/dropins" directory.
 
 == ToDo
 :o: pass:normal[+[ ]+]
