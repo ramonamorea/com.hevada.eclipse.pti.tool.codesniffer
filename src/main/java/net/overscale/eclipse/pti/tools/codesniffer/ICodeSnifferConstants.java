@@ -12,5 +12,5 @@ public interface ICodeSnifferConstants {
 	public static final String PLUGIN_ID = PHPCodeSnifferPlugin.PLUGIN_ID;
 	public static final String PREFERENCE_PAGE_ID = PLUGIN_ID + ".preferences.CodeSnifferPreferencePage"; //$NON-NLS-1$
 	public static final String PROJECT_PAGE_ID = PLUGIN_ID + ".properties.CodeSnifferPreferencePage"; //$NON-NLS-1$
-	public static final String VALIDATOR_CODESNIFFER_MARKER = "net.overscale.eclipse.pti.tools.codesniffer.validator.codeSnifferMarker";
+	public static final String CS_MARKER_ID = "net.overscale.eclipse.pti.tools.codesniffer.CSMarker";
 }

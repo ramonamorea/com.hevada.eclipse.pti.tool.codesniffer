@@ -16,6 +16,10 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.dltk.compiler.problem.IProblem;
+import org.eclipse.jface.text.BadLocationException;
+import org.eclipse.jface.text.IDocument;
+import org.eclipse.ui.editors.text.TextFileDocumentProvider;
+import org.eclipse.ui.texteditor.IDocumentProvider;
 import org.eclipse.wst.validation.AbstractValidator;
 import org.eclipse.wst.validation.ValidationResult;
 import org.eclipse.wst.validation.ValidationState;
@@ -28,9 +32,6 @@ import net.overscale.eclipse.pti.tools.codesniffer.core.preferences.PHPCodeSniff
 import net.overscale.eclipse.pti.ui.Logger;
 
 public class PHPCodeSnifferValidator extends AbstractValidator {
-
-	private static final String CS_MARKER_ID = "net.overscale.eclipse.pti.tools.codesniffer.CSMarker";
-
 	public ValidationResult validate(IResource resource, int kind, ValidationState state, IProgressMonitor monitor) {
 		// process only PHP files
 		if (resource.getType() != IResource.FILE) {
@@ -65,7 +66,7 @@ public class PHPCodeSnifferValidator extends AbstractValidator {
 		// remove the markers currently existing for this resource
 		// in case of project/folder, the markers are deleted recursively
 		try {
-			file.deleteMarkers(ICodeSnifferConstants.VALIDATOR_CODESNIFFER_MARKER, false, IResource.DEPTH_INFINITE);
+			file.deleteMarkers(ICodeSnifferConstants.CS_MARKER_ID, false, IResource.DEPTH_INFINITE);
 		} catch (CoreException e) {
 		}
 
@@ -74,8 +75,9 @@ public class PHPCodeSnifferValidator extends AbstractValidator {
 		try {
 			problems = cs.parse(file);
 			for (IProblem problem : problems) {
-				IMarker marker = file.createMarker(CS_MARKER_ID);
-				marker.setAttribute(IMarker.LINE_NUMBER, problem.getSourceLineNumber());
+				IMarker marker = file.createMarker(ICodeSnifferConstants.CS_MARKER_ID);
+				int line = problem.getSourceLineNumber();
+				marker.setAttribute(IMarker.LINE_NUMBER, line);
 
 				if (problem.isWarning()) {
 					marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_WARNING);
@@ -84,13 +86,18 @@ public class PHPCodeSnifferValidator extends AbstractValidator {
 					marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_ERROR);
 					result.incrementError(1);
 				}
-				marker.setAttribute(IMarker.CHAR_START, problem.getSourceStart());
-				marker.setAttribute(IMarker.CHAR_END, problem.getSourceEnd());
+				// IDocumentProvider provider = new TextFileDocumentProvider();
+				// provider.connect(file);
+				// IDocument doc = provider.getDocument(file);
+				int offset = 0; // doc.getLineOffset(line - 1);
+
+				int start = problem.getSourceStart() + offset;
+				marker.setAttribute(IMarker.CHAR_START, start);
+				int end = offset + problem.getSourceEnd();
+				marker.setAttribute(IMarker.CHAR_END, end);
 				marker.setAttribute(IMarker.MESSAGE, problem.getMessage());
 			}
-		} catch (CoreException e) {
-			Logger.logException(e);
-		} catch (IOException e) {
+		} catch (CoreException | IOException e) {
 			Logger.logException(e);
 		}
 	}
