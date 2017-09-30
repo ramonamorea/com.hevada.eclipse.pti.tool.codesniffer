@@ -1,33 +1,56 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: PHP Tool Codesniffer
-Bundle-SymbolicName: net.overscale.eclipse.pti.tools.codesniffer;singleton:=true
-Bundle-Version: 1.3.0.vqualifier
-Bundle-Activator: net.overscale.eclipse.pti.tools.codesniffer.PHPCodeSnifferPlugin
-Bundle-Vendor: Yury Pavlov
-Require-Bundle: org.eclipse.ui,
- org.eclipse.core.runtime,
- net.overscale.eclipse.pti.core;bundle-version="1.6.0",
- org.eclipse.php.ui;bundle-version="3.0.0",
- org.eclipse.php.debug.core;bundle-version="3.0.0",
- org.eclipse.php.debug.ui;bundle-version="3.0.0",
- org.eclipse.core.resources;bundle-version="3.4.1",
- org.eclipse.dltk.core,
- org.eclipse.wst.validation,
- org.eclipse.debug.ui;bundle-version="3.4.1",
- org.eclipse.wst.html.core;bundle-version="1.1.203",
- org.eclipse.wst.xml.core;bundle-version="1.1.306",
- org.eclipse.wst.sse.core;bundle-version="1.1.302",
- org.eclipse.ui.ide;bundle-version="3.4.1",
- org.eclipse.wst.sse.ui;bundle-version="1.1.100"
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-SymbolicName: com.hevada.eclipse.pti.tools.codesniffer;singleto
+ n:=true
+Bundle-Version: 1.7.0.v202306072106
+Bundle-Activator: com.hevada.eclipse.pti.tools.codesniffer.PHPCodeSnif
+ ferPlugin
+Bundle-Vendor: Yury Pavlov, Hevada
+Export-Package: com.hevada.eclipse.pti.tools.codesniffer;uses:="org.os
+ gi.framework,com.hevada.eclipse.pti.core,org.eclipse.core.resources",
+ com.hevada.eclipse.pti.tools.codesniffer.core; uses:="com.hevada.ecli
+ pse.pti.core.php.source,  org.eclipse.core.runtime,  org.w3c.dom,  co
+ m.hevada.eclipse.pti.core.tools,  org.eclipse.dltk.compiler.problem, 
+  org.eclipse.core.resources,  com.hevada.eclipse.pti.core.launching, 
+  com.hevada.eclipse.pti.tools.codesniffer.core.preferences",com.hevad
+ a.eclipse.pti.tools.codesniffer.core.jobs;uses:="org.eclipse.core.run
+ time.jobs,org.eclipse.core.runtime,org.eclipse.core.resources",com.he
+ vada.eclipse.pti.tools.codesniffer.core.preferences;uses:="com.hevada
+ .eclipse.pti.core.preferences,org.eclipse.core.resources",com.hevada.
+ eclipse.pti.tools.codesniffer.core.problem;uses:="com.hevada.eclipse.
+ pti.core.compiler.problem,org.eclipse.dltk.compiler.problem",com.heva
+ da.eclipse.pti.tools.codesniffer.ui.actions;uses:="org.eclipse.jface.
+ action,com.hevada.eclipse.pti.ui.actions",com.hevada.eclipse.pti.tool
+ s.codesniffer.ui.correction; uses:="org.eclipse.ui,  org.eclipse.swt.
+ graphics,  org.eclipse.jface.text,  org.eclipse.core.resources",com.h
+ evada.eclipse.pti.tools.codesniffer.ui.preferences; uses:="org.eclips
+ e.php.internal.ui.wizards.fields,  org.eclipse.swt.widgets,  org.ecli
+ pse.jface.dialogs,  org.eclipse.php.internal.ui.preferences.util,  or
+ g.eclipse.core.runtime,  com.hevada.eclipse.pti.ui.preferences,  org.
+ eclipse.core.resources,  org.eclipse.ui.preferences,  org.eclipse.php
+ .internal.ui.preferences,  com.hevada.eclipse.pti.tools.codesniffer.c
+ ore.preferences",com.hevada.eclipse.pti.tools.codesniffer.validator;u
+ ses:="org.eclipse.core.runtime,org.eclipse.wst.validation,org.eclipse
+ .core.resources"
+Require-Bundle: org.eclipse.ui;bundle-version="3.203.100",
+ org.eclipse.core.runtime;bundle-version="3.27.0",
+ com.hevada.eclipse.pti.core;bundle-version="1.7.0",
+ org.eclipse.php.debug.core;bundle-version="8.0.0",
+ org.eclipse.php.debug.ui;bundle-version="8.0.0",
+ org.eclipse.core.resources;bundle-version="3.19.0",
+ org.eclipse.dltk.core;bundle-version="6.3.0",
+ org.eclipse.wst.validation;bundle-version="1.2.801",
+ org.eclipse.debug.ui;bundle-version="3.18.0",
+ org.eclipse.wst.html.core;bundle-version="1.4.300",
+ org.eclipse.wst.xml.core;bundle-version="1.2.700",
+ org.eclipse.wst.sse.core;bundle-version="1.2.1100",
+ org.eclipse.ui.ide;bundle-version="3.21.0",
+ org.eclipse.wst.sse.ui;bundle-version="1.7.700",
+ org.eclipse.php.ui;bundle-version="8.0.0";visibility:=reexport,
+ org.eclipse.php.core;bundle-version="8.0.0"
+Bundle-RequiredExecutionEnvironment: JavaSE-17
+Automatic-Module-Name: com.hevada.eclipse.pti.tools.codesniffer.single
+ ton.true
 Bundle-ActivationPolicy: lazy
-Export-Package: net.overscale.eclipse.pti.tools.codesniffer,
- net.overscale.eclipse.pti.tools.codesniffer.core,
- net.overscale.eclipse.pti.tools.codesniffer.core.jobs,
- net.overscale.eclipse.pti.tools.codesniffer.core.preferences,
- net.overscale.eclipse.pti.tools.codesniffer.core.problem,
- net.overscale.eclipse.pti.tools.codesniffer.ui.actions,
- net.overscale.eclipse.pti.tools.codesniffer.ui.correction,
- net.overscale.eclipse.pti.tools.codesniffer.ui.preferences,
- net.overscale.eclipse.pti.tools.codesniffer.validator
+
